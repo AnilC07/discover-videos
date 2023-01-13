@@ -1,0 +1,5 @@
+1) Créée une appli nextjs avec la commande: npx create-next-app my-app
+2) Appliquer une font global a l'app :
+    Dans 'page/_document.js'  dans '<Head></Head>' c'est là qu'on va mettre les '<meta>' et les '<link>'
+3) Style global à l'app : Le fichier 'global.css' dans le dossier 'styles' applique un style global à toutes l'app
+
