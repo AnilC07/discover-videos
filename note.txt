@@ -1,5 +1,14 @@
 1) Créée une appli nextjs avec la commande: npx create-next-app my-app
-2) Appliquer une font global a l'app :
+2) Avant toutes choses: Analyser l'architecture de l'application
+3) Appliquer une font global a l'app :
     Dans 'page/_document.js'  dans '<Head></Head>' c'est là qu'on va mettre les '<meta>' et les '<link>'
-3) Style global à l'app : Le fichier 'global.css' dans le dossier 'styles' applique un style global à toutes l'app
-
+4) Style global à l'app : Le fichier 'global.css' dans le dossier 'styles' applique un style global à toutes l'app
+5) Pour la création de composants : Créée un dossier 'components'
+6) Utilisation des feuilles de styles : Tous lesfichiers css doivent avoir le format suivant 'monFichier.module.css' et importe comme tel 'import ... from './monFicher.module.css'
+7) Utilisation du router de nextjs : importe {useRouter} from 'next/router'
+    Dans un event onClick appeler une fonction qui redirige ver la page :
+    /*
+    const handleOnClickMyList = (e) =>{
+        e.preventDefault();
+        router.push('/browse/my-list')
+    } */
