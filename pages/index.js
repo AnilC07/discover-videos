@@ -1,9 +1,16 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
 
-const inter = Inter({ subsets: ['latin'] })
+// IMPORT COMPOSANT BANNER
+import Banner from '@/components/Banner/Banner'
+import '../components/Banner/banner.module.css'
+
+
+import styles from '@/styles/Home.module.css'
+import Navbar from '@/components/navbar/Navbar'
+import Card from '@/components/Card/Card'
+
+
 
 export default function Home() {
   return (
@@ -14,7 +21,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Netflix</h1>
+
+      <Navbar userName="anil.celik075@gmail.com" />
+      <Banner title='Clifford' subTitle='a very cute dog' imgUrl='/static/Clifford.webp'/>
+     <Card /> 
     </>
   )
 }
