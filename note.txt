@@ -12,3 +12,38 @@
         e.preventDefault();
         router.push('/browse/my-list')
     } */
+8) Utilisation du composant Image: 
+    Il faut que soit sont parent direct soit le composant a une 'width' et 'height' definis.
+    Si la source provient dune source externe, configurer les fichier 'next.confing.js' en ajoutant : 
+    module.exports = {
+  images: {
+    domains: ['images.unsplash.com'],
+  },
+}
+NB: Redemmarer le serveur a chaque modif de ce fichier
+
+9) Le choix du 'rendering'
+
+10) Dans une page dynamic, pour recuperer l'id on doit :
+    utiliser le router de next. useRouter() ensuite recuperer le param avec router.query
+
+11) Pourquoi graphQL
+    Là notre API c'est youtube et a chaque requete il retourne des information dont on a pas besoin, dans un soucis d'economi de data, on va utiliser graphql avec lequel on va pouvoir dire a lapi de retourner que ce qu'on veut
+  
+12) Utilisation de hasura et graphQL
+    crée un compte hasura cloud et crée un projet et une database avec neonDB, ensuite les requete sont simple. Copier coller le code generer par hasura. On stocke dans le navigateur pour pouvoir verifier l'expiration du cookie
+
+13) Architecture de l'authentification
+    Dans un premier temps, magic link demande le mail et renvoi un token apres validation, Maintenant, il faut verifier si le mail entrée existe dans la base de donnees, si non il le crée (mutation) et retourne un token stocke dans le navigateur sinon il retourne un token et le stocke dans le navigateur
+
+14) Etape de création
+    1) On doit recuperer les informations cree par magiclink puis les transmettre a hasura, Magic SDK fonctionne cote client et cote serveur, on va s'en servir coté serveur. avec getMetadataByToken(didToken)
+
+    2) Creer le JWT : transmettre les info present dans la doc de hasura '/using JWT'
+
+    3)
+
+    4)
+
+    5)
+

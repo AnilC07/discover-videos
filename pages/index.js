@@ -1,18 +1,43 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import Head from "next/head";
 
 // IMPORT COMPOSANT BANNER
-import Banner from '@/components/Banner/Banner'
-import '../components/Banner/banner.module.css'
+import Banner from "@/components/Banner/Banner";
+import "../components/Banner/banner.module.css";
+
+import styles from "@/styles/Home.module.css";
+import Navbar from "@/components/navbar/Navbar";
+
+import SectionCard from "@/components/Card/SectionCard";
+
+import { getPopularVideos, getVideos, getWatchItAgainVideos } from "../lib/videos";
 
 
-import styles from '@/styles/Home.module.css'
-import Navbar from '@/components/navbar/Navbar'
-import Card from '@/components/Card/Card'
+export async function getServerSideProps(context) {
+  console.log(context.req.cookies.token)
+  const marvelVideos = await getVideos("marvel trailer");
+  const productivityVideos = await getVideos("productivity");
+  const travelVideos = await getVideos("travel");
+  const popularVideos = await getPopularVideos();
 
+  const token = context.req.cookies.token
+  const user_id='did:ethr:0x185D7cc34CEE24B8b5FF1E875E3b31eE38228201'
+ 
+  
+  const watchItAgainVideos =  await getWatchItAgainVideos(user_id,token)
+  // console.log({watchItAgainVideos})
 
+  return {
+    props: { marvelVideos, productivityVideos, travelVideos, popularVideos},
+  };
+}
 
-export default function Home() {
+export default function Home({
+  marvelVideos,
+  productivityVideos,
+  travelVideos,
+  popularVideos,
+  
+}) {
   return (
     <>
       <Head>
@@ -22,9 +47,30 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar userName="anil.celik075@gmail.com" />
-      <Banner title='Clifford' subTitle='a very cute dog' imgUrl='/static/Clifford.webp'/>
-     <Card /> 
+      <div className={styles.main}>
+        <Navbar userName="anil.celik075@gmail.com" />
+        <Banner
+          videoId="sGbxmsDFVnE"
+          title="Clifford"
+          subTitle="a very cute dog"
+          imgUrl="/static/Clifford.webp"
+        />
+
+        <div className={styles.sectionWrapper}>
+          <SectionCard title="Marvel" size="large" videos={marvelVideos} />
+          <SectionCard title="Watch it again" size="small" videos={[]} />
+
+          <SectionCard title="Travel" size="small" videos={travelVideos} />
+          <SectionCard
+            title="Productivity"
+            size="medium"
+            videos={productivityVideos}
+          />
+          <SectionCard title="Popular" size="small" videos={popularVideos} />
+        </div>
+      </div>
+      {/* <SectionCard title="Disney" size="medium" />
+      <SectionCard title="Disney" size="small" /> */}
     </>
-  )
+  );
 }

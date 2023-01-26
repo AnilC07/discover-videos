@@ -1,13 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { magic } from "../../lib/magic-client";
 
 import styles from "./navbar.module.css";
 
-const Navbar = ({ userName }) => {
+// const Navbar = ({ userName }) => { => changement, on recupere le username avec magic
+const Navbar = () => {
   const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [username, setUsername] = useState("");
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    // Assumes a user already logged in
+    async function getUserName() {
+      try {
+        const { email, issuer, publicAddress } = await magic.user.getMetadata();
+
+        const didToken = await magic.user.getIdToken();
+
+        // console.log({ didToken });
+
+        if (email) {
+          setUsername(email);
+          setIsLogged(true);
+        }
+      } catch (error) {
+        // Handle error if required!
+        // console.log("Error retrieving email", error);
+      }
+    }
+    getUserName();
+    // return () => {};
+  }, []);
 
   const handleOnClickHome = (e) => {
     e.preventDefault();
@@ -24,6 +52,22 @@ const Navbar = ({ userName }) => {
 
     // Facon simple de faire un toggle
     setShowDropdown(!showDropdown);
+  };
+
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    // console.log("coucou");
+    try {
+      await magic.user.logout();
+      // console.log(await magic.user.isLoggedIn()); // => `false`
+      setIsLogged(false);
+      // router.push("/login");
+    } catch (error) {
+      // Handle error if required!
+      router.push("/login");
+
+      // console.log("Error logging out", error);
+    }
   };
 
   return (
@@ -51,7 +95,9 @@ const Navbar = ({ userName }) => {
         <nav>
           <div>
             <button className={styles.usernameBtn} onClick={handleShowDropDown}>
-              <p className={styles.username}>{userName}</p>
+              <p className={styles.username}>
+                {isLogged ? `${username}` : "username"}
+              </p>
               <Image
                 src={"/static/expand-arrow.svg"}
                 alt="expand arrow"
@@ -62,8 +108,12 @@ const Navbar = ({ userName }) => {
             {showDropdown && (
               <div className={styles.navDropDown}>
                 <div>
-                  <Link href="/login" className={styles.linkName}>
-                    Sign Out
+                  <Link
+                    href="/login"
+                    className={styles.linkName}
+                    legacyBehavior={true}
+                  >
+                    <a onClick={handleSignOut}>Sign Out</a>
                   </Link>
                   <div className={styles.lineWrapper}></div>
                 </div>
