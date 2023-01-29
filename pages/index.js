@@ -11,23 +11,32 @@ import SectionCard from "@/components/Card/SectionCard";
 
 import { getPopularVideos, getVideos, getWatchItAgainVideos } from "../lib/videos";
 
+import RedirectUser from "@/utils/redirectUser";
+
 
 export async function getServerSideProps(context) {
-  console.log(context.req.cookies.token)
   const marvelVideos = await getVideos("marvel trailer");
   const productivityVideos = await getVideos("productivity");
   const travelVideos = await getVideos("travel");
   const popularVideos = await getPopularVideos();
 
-  const token = context.req.cookies.token
-  const user_id='did:ethr:0x185D7cc34CEE24B8b5FF1E875E3b31eE38228201'
+  const {user_id, token} = await RedirectUser(context)
+
+  if (!user_id) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
  
-  
-  const watchItAgainVideos =  await getWatchItAgainVideos(user_id,token)
-  // console.log({watchItAgainVideos})
+  const watchItAgainVideos =  await getWatchItAgainVideos(user_id, token)
+
 
   return {
-    props: { marvelVideos, productivityVideos, travelVideos, popularVideos},
+    props: { marvelVideos, productivityVideos, travelVideos, popularVideos, watchItAgainVideos},
   };
 }
 
@@ -36,7 +45,7 @@ export default function Home({
   productivityVideos,
   travelVideos,
   popularVideos,
-  
+  watchItAgainVideos
 }) {
   return (
     <>
@@ -58,7 +67,7 @@ export default function Home({
 
         <div className={styles.sectionWrapper}>
           <SectionCard title="Marvel" size="large" videos={marvelVideos} />
-          <SectionCard title="Watch it again" size="small" videos={[]} />
+          <SectionCard title="Watch it again" size="small" videos={watchItAgainVideos} />
 
           <SectionCard title="Travel" size="small" videos={travelVideos} />
           <SectionCard

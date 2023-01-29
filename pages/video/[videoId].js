@@ -58,16 +58,16 @@ const Video = ({ video }) => {
     const fetchInFrontSide = async () => {
       const response = await fetch(`/api/stats?video_id=${video_id}`, {method:"GET"});
       const data = await response.json();
-      console.log({data})
+   
       if(data.length > 0){
         const favourited = data[0].favourited
-        console.log(favourited)
+
         if(favourited===1){
           setToggleLike(true)
-          console.log(favourited)
+
         }else{
           setToggleDisLike(true)
-          console.log(favourited)
+
         }
       }
     };
@@ -122,7 +122,6 @@ const Video = ({ video }) => {
         className={styles.modal}
         contentLabel="Watch the video"
         onRequestClose={() => {
-          // console.log("router.back");
           router.back();
         }}
         overlayClassName={styles.overlay}

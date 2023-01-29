@@ -41,7 +41,7 @@ const Login = () => {
         try {
           setIsLoading(true);
           const didToken = await magic.auth.loginWithMagicLink({ email });
-          // console.log({ didToken });
+
           if (didToken) {
 
             const response = await fetch("/api/login", {
@@ -53,10 +53,9 @@ const Login = () => {
             });
 
             const loggedInResponse = await response.json();
-            // console.log({ loggedInResponse });
 
             if (loggedInResponse.done) {
-              // console.log({ loggedInResponse });
+
               router.push("/");
             }else{
               setIsLoading(false)
@@ -65,7 +64,6 @@ const Login = () => {
           }
         } catch (error) {
           // Handle errors if required!
-          // console.error(error);
           console.error("Something went wrong logging in", error);
           setIsLoading(false)
         }

@@ -1,21 +1,26 @@
 import { findVideoIdByUser, updateStats, addStats } from "@/lib/db/hasura";
+import { verifyToken } from "@/lib/util";
 import jwt from "jsonwebtoken";
 
 export default async function stats(req, res) {
   try {
-    if (!req.cookies.token) {
+
+    const token = req.cookies.token
+
+    if (!token) {
       res.status(403).send({});
     } else {
+
       const inputParams = req.method === "POST" ? req.body : req.query
       const { video_id } = inputParams;
 
       if (video_id) {
-        const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+        // const decodedToken = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
 
-        const user_id = decoded.issuer;
+        const user_id = await verifyToken(token)
 
         const findVideo = await findVideoIdByUser(
-          req.cookies.token,
+          token,
           user_id,
           video_id
         );
@@ -23,20 +28,22 @@ export default async function stats(req, res) {
         const doesStatExist = findVideo?.length > 0;
 
         if (req.method === "POST") {
+ 
           const { favourited, watched = true } = req.body;
+
           if (doesStatExist) {
             //update
-            const response = await updateStats(req.cookies.token, {
+            const response = await updateStats(token, {
               favourited,
               watched,
               user_id,
               video_id,
             });
-            // console.log({data:response})
+            res.send({data:response})
             res.send({ data: response });
           } else {
             // add
-            const response = await addStats(req.cookies.token, {
+            const response = await addStats(token, {
               favourited,
               watched,
               user_id,

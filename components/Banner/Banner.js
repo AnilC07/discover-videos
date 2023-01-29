@@ -6,7 +6,7 @@ import styles from "./banner.module.css";
 const Banner = ({ title, subTitle, imgUrl, videoId }) => {
   const router = useRouter();
   const handleOnPlay = () => {
-    // console.log("Hey it's the button");
+
     router.push(`/video/${videoId}`);
   };
 

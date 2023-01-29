@@ -22,8 +22,6 @@ const Navbar = () => {
 
         const didToken = await magic.user.getIdToken();
 
-        // console.log({ didToken });
-
         if (email) {
           setUsername(email);
           setIsLogged(true);
@@ -55,11 +53,10 @@ const Navbar = () => {
   };
 
   const handleSignOut = async (e) => {
-    e.preventDefault();
-    // console.log("coucou");
+    e.preventDefault(); 
     try {
       await magic.user.logout();
-      // console.log(await magic.user.isLoggedIn()); // => `false`
+  
       setIsLogged(false);
       // router.push("/login");
     } catch (error) {
