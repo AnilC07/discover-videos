@@ -26,7 +26,7 @@ const Login = () => {
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
     };
-  }, []);
+  });
 
   const handleOnChangeEmail = (e) => {
     setUserMsg("");

@@ -22,15 +22,15 @@ export async function getServerSideProps(context) {
 
   const {user_id, token} = await RedirectUser(context)
 
-  if (!user_id) {
-    return {
-      props: {},
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  // if (!user_id) {
+  //   return {
+  //     props: {},
+  //     redirect: {
+  //       destination: "/login",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
  
   const watchItAgainVideos =  await getWatchItAgainVideos(user_id, token)
 

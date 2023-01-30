@@ -13,12 +13,13 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState("");
   const [isLogged, setIsLogged] = useState(false);
+  const [didToken, setDidToken] = useState("");
 
   useEffect(() => {
     // Assumes a user already logged in
     async function getUserName() {
       try {
-        const { email, issuer, publicAddress } = await magic.user.getMetadata();
+        const { email, issuer } = await magic.user.getMetadata();
 
         const didToken = await magic.user.getIdToken();
 
@@ -28,11 +29,10 @@ const Navbar = () => {
         }
       } catch (error) {
         // Handle error if required!
-        // console.log("Error retrieving email", error);
+        console.log("Error retrieving email", error);
       }
     }
     getUserName();
-    // return () => {};
   }, []);
 
   const handleOnClickHome = (e) => {
@@ -47,7 +47,6 @@ const Navbar = () => {
 
   const handleShowDropDown = (e) => {
     e.preventDefault();
-
     // Facon simple de faire un toggle
     setShowDropdown(!showDropdown);
   };
@@ -55,12 +54,21 @@ const Navbar = () => {
   const handleSignOut = async (e) => {
     e.preventDefault(); 
     try {
-      await magic.user.logout();
-  
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const res = await response.json();
+      console.log({res})
       setIsLogged(false);
       // router.push("/login");
     } catch (error) {
       // Handle error if required!
+      console.error("Error logging out", error);
       router.push("/login");
 
       // console.log("Error logging out", error);

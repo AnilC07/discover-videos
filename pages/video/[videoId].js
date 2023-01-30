@@ -73,7 +73,7 @@ const Video = ({ video }) => {
     };
 
     fetchInFrontSide()
-  }, []);
+  });
 
   const {
     title,

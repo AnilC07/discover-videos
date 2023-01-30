@@ -1,17 +1,22 @@
 import { removeTokenCookie } from "@/lib/cookies";
 import { verifyToken } from "@/lib/util";
-import { magic } from "../../lib/magic-client";
+import { magicAdmin } from "@/lib/magic";
 
-export default logout = async (req, res) => {
+console.log('coucou')
+
+export default async function logout(req, res){
+  console.log(res);
   try {
-    if (!req.cookies.token)
+    if (!req.cookies.token) {
       return res.status(401).json({ message: "User is not logged in" });
+    }
     const token = req.cookies.token;
+    console.log({ token });
 
-    const userId = await verifyToken(token);
+    const user_id = await verifyToken(token);
     removeTokenCookie(res);
     try {
-      await magicAdmin.users.logoutByIssuer(userId);
+      await magicAdmin.users.logoutByIssuer(user_id);
     } catch (error) {
       console.log("User's session with Magic already expired");
       console.error("Error occurred while logging out magic user", error);
