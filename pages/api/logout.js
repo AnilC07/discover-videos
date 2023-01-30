@@ -2,16 +2,14 @@ import { removeTokenCookie } from "@/lib/cookies";
 import { verifyToken } from "@/lib/util";
 import { magicAdmin } from "@/lib/magic";
 
-console.log('coucou')
-
 export default async function logout(req, res){
-  console.log(res);
+
   try {
     if (!req.cookies.token) {
       return res.status(401).json({ message: "User is not logged in" });
     }
     const token = req.cookies.token;
-    console.log({ token });
+
 
     const user_id = await verifyToken(token);
     removeTokenCookie(res);

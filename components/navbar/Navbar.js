@@ -63,15 +63,13 @@ const Navbar = () => {
       });
 
       const res = await response.json();
-      console.log({res})
+
       setIsLogged(false);
       // router.push("/login");
     } catch (error) {
       // Handle error if required!
       console.error("Error logging out", error);
       router.push("/login");
-
-      // console.log("Error logging out", error);
     }
   };
 
