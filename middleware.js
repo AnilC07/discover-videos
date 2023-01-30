@@ -8,8 +8,7 @@ export async function middleware(req, ev) {
   if(token){
     const user_id = await jwtVerify(
       token,
-      // new TextEncoder().encode(process.env.JWT_SECRET)
-      process.env.JWT_SECRET
+      new TextEncoder().encode(process.env.JWT_SECRET)
     );
 
     const {pathname} = req.nextUrl.clone();

@@ -2,7 +2,7 @@ import Loading from "@/components/Loading/Loading";
 import "@/styles/globals.css";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { magic } from "../lib/magic-client";
+
 
 export default function App({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(false);

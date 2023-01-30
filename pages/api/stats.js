@@ -1,6 +1,6 @@
 import { findVideoIdByUser, updateStats, addStats } from "@/lib/db/hasura";
 import { verifyToken } from "@/lib/util";
-import jwt from "jsonwebtoken";
+
 
 export default async function stats(req, res) {
   try {
