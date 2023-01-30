@@ -25,16 +25,17 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const listOfVideos = [
-    "xjDjIWPwcPU",
-    "d9MyW72ELq0",
-    "jAy6NJ_D5vU",
-    "f9OKL5no-S0",
-    "T3T-evQZiQo",
-    "nWHUjuJ8zxE",
-    "sGbxmsDFVnE",
-  ];
+  // const listOfVideos = [
+  //   "xjDjIWPwcPU",
+  //   "d9MyW72ELq0",
+  //   "jAy6NJ_D5vU",
+  //   "f9OKL5no-S0",
+  //   "T3T-evQZiQo",
+  //   "nWHUjuJ8zxE",
+  //   "sGbxmsDFVnE",
+  // ];
 
+  const listOfVideos = [];
   // Get the paths we want to pre-render based on posts
   const paths = listOfVideos.map((videoId) => ({
     params: { videoId },
